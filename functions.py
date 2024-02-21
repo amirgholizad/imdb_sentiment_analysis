@@ -20,8 +20,16 @@ def imdb_preprocessing(
 
 # preprocessing input and making predictions
 def imdb_predict(model, dataset, review, n_words):
+    tokenizer = Tokenizer(num_words=n_words)
     word_index = dataset.get_word_index()
-    encoded_review = [word_index[word] for word in review.split()]
+
+    review_list = review.lower().split()
+    temp = []
+    for word in review_list:
+        temp.append("".join(c for c in word if c.isalpha()))
+    review_list = temp
+
+    encoded_review = [word_index[word] for word in review_list]
     encoded_review = tokenizer.sequences_to_matrix(
         [encoded_review], mode="binary"
     ).squeeze()
@@ -30,7 +38,7 @@ def imdb_predict(model, dataset, review, n_words):
     )
 
     pred = model.predict(encoded_review)
-    if pred[0][0] > 0.5:
+    if pred[0][1] > 0.5:
         print("This review was Positive!")
-    elif pred[0][1] > 0.5:
+    elif pred[0][0] > 0.5:
         print("This review was Negative!")
