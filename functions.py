@@ -3,7 +3,7 @@ import tensorflow as tf
 from keras.preprocessing.text import Tokenizer
 
 
-# One-hot encoding the output into vector mode, each of length 100
+# One-hot encoding the output into vector mode
 def imdb_preprocessing(
     features_train, features_test, targets_train, targets_test, n_words, n_classes
 ):
